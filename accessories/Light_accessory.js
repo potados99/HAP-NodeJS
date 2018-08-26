@@ -2,10 +2,13 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
+/*
 var SerialPort = require('serialport');
 var port = new SerialPort('/dev/ttyUSB0', {
   baudRate: 9600
 });
+*/
+var exec = require('child_process').exec;
 
 var LightController = {
   name: "Simple Light", //name of accessory
@@ -25,6 +28,7 @@ var LightController = {
   setPower: function(status) { //set power of accessory
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off");
 
+/*
     var _cmd = (status) ? 'LIT ON\n' : 'LIT OFF\n';
 
     port.write(_cmd, function(err) {
@@ -32,6 +36,9 @@ var LightController = {
         return console.log('Error on write: ', err.message);
       }
     });
+*/
+    var _cmd = (status) ? "LIT ON" : "LIT OFF";
+    exec("control " + _cmd);
 
     this.power = status;
   },

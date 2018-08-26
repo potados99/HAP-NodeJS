@@ -2,10 +2,11 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var SerialPort = require('serialport');
-var port = new SerialPort('/dev/ttyUSB0', {
-  baudRate: 9600
-});
+//var SerialPort = require('serialport');
+//var port = new SerialPort('/dev/ttyUSB0', {
+//  baudRate: 9600
+//});
+var exec = require('child_process').exec;
 
 // here's a hardware device that we'll expose to HomeKit
 var FAN = {
@@ -13,6 +14,7 @@ var FAN = {
   rSpeed: 100,
 
   setPower: function(status) {
+    /*
     var _cmd = (status) ? 'FAN ON\n' : 'FAN OFF\n';
 
     port.write(_cmd, function(err) {
@@ -20,6 +22,10 @@ var FAN = {
         return console.log('Error on write: ', err.message);
       }
     });
+    */
+
+    var _cmd = (status) ? "FAN ON" : "FAN OFF";
+    exec("control " + _cmd);
 
     this.power = status;
   },
