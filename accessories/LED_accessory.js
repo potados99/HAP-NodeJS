@@ -35,7 +35,7 @@ var LightController = {
       }
     });
 */
-    var _cmd = (status) ? "LET ON" : "LET OFF";
+    var _cmd = (status) ? "LED ON" : "LED OFF";
     exec("control " + _cmd);
 
     this.power = status;
