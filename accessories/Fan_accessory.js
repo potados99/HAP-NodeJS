@@ -67,7 +67,7 @@ fanAccessory
 .addService(Service.Fan, "Fan") // services exposed to the user should have "names" like "Fake Light" for us
 .getCharacteristic(Characteristic.On)
 .on('set', function(value, callback) {
-  FanController.setPowerOn(value);
+  FanController.setPower(value);
   callback(); // Our fake Fan is synchronous - this value has been successfully set
 });
 
