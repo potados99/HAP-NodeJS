@@ -6,6 +6,8 @@ var Bridge = require('./').Bridge;
 var Accessory = require('./').Accessory;
 var accessoryLoader = require('./lib/AccessoryLoader');
 
+module.exports = function() {
+
 console.log("HAP-NodeJS starting...");
 
 // Initialize our storage system
@@ -51,3 +53,5 @@ Object.keys(signals).forEach(function (signal) {
     }, 1000)
   });
 });
+
+};

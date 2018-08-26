@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+'use strict';
+
+process.title = 'homekit';
+
+// Find the HomeBridge lib
+var path = require('path');
+var fs = require('fs');
+var root = path.join(path.dirname(fs.realpathSync(__filename)), '../');
+
+// Run HomeBridge
+require(root + '/BridgedCore')();
