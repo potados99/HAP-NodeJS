@@ -30,12 +30,17 @@ accessories.forEach(function(accessory) {
 });
 
 // Publish the Bridge on the local network.
-bridge.publish({
+var publishInfo = {
   username: "CC:22:3D:E3:CE:F6",
   port: 51826,
   pincode: "031-45-154",
   category: Accessory.Categories.BRIDGE
-});
+};
+
+bridge.publish(publishInfo);
+
+bridge.printSetupInfo();
+bridge.printPin(publishInfo.pincode);
 
 var signals = { 'SIGINT': 2, 'SIGTERM': 15 };
 Object.keys(signals).forEach(function (signal) {
