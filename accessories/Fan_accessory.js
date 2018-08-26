@@ -57,7 +57,7 @@ fan
 
 // listen for the "identify" event for this Accessory
 fan.on('identify', function(paired, callback) {
-  FAKE.identify();
+  FAN.identify();
   callback(); // success
 });
 
