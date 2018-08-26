@@ -2,11 +2,15 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
+var SerialPort = require('serialport');
+var port = new SerialPort('/dev/ttyUSB0', {
+  baudRate: 9600
+});
 
 var LightController = {
   name: "Simple Light", //name of accessory
   pincode: "031-45-154",
-  username: "FA:3C:ED:5A:1A:1A", // MAC like address used by HomeKit to differentiate accessories. 
+  username: "FA:3C:ED:5A:1A:1A", // MAC like address used by HomeKit to differentiate accessories.
   manufacturer: "HAP-NodeJS", //manufacturer (optional)
   model: "v1.0", //model (optional)
   serialNumber: "A12S345KGB", //serial number (optional)
@@ -20,6 +24,15 @@ var LightController = {
 
   setPower: function(status) { //set power of accessory
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off");
+
+    var _cmd = (status) ? 'LIT ON\n' : 'LIT OFF\n';
+
+    port.write(_cmd, function(err) {
+      if (err) {
+        return console.log('Error on write: ', err.message);
+      }
+    });
+
     this.power = status;
   },
 
@@ -111,7 +124,7 @@ lightAccessory
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
 // Please use Characteristic.updateValue
-// 
+//
 // lightAccessory
 //   .getService(Service.Lightbulb)
 //   .getCharacteristic(Characteristic.On)
