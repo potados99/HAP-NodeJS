@@ -4,23 +4,23 @@ var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 
 
-// here's a fake hardware device that we'll expose to HomeKit
-var FAKE_FAN = {
+// here's a hardware device that we'll expose to HomeKit
+var FAN = {
   powerOn: false,
   rSpeed: 100,
   setPowerOn: function(on) {
     if(on){
       //put your code here to turn on the fan
-      FAKE_FAN.powerOn = on;
+      FAN.powerOn = on;
     }
     else{
       //put your code here to turn off the fan
-      FAKE_FAN.powerOn = on;
+      FAN.powerOn = on;
     }
   },
   setSpeed: function(value) {
     console.log("Setting fan rSpeed to %s", value);
-    FAKE_FAN.rSpeed = value;
+    FAN.rSpeed = value;
     //put your code here to set the fan to a specific value
   },
   identify: function() {
@@ -43,7 +43,7 @@ fan
 
 // listen for the "identify" event for this Accessory
 fan.on('identify', function(paired, callback) {
-  FAKE_FAN.identify();
+  FAKE.identify();
   callback(); // success
 });
 
@@ -53,7 +53,7 @@ fan
   .addService(Service.Fan, "Fan") // services exposed to the user should have "names" like "Fake Light" for us
   .getCharacteristic(Characteristic.On)
   .on('set', function(value, callback) {
-    FAKE_FAN.setPowerOn(value);
+    FAN.setPowerOn(value);
     callback(); // Our fake Fan is synchronous - this value has been successfully set
   });
 
@@ -70,7 +70,7 @@ fan
 
     var err = null; // in case there were any problems
 
-    if (FAKE_FAN.powerOn) {
+    if (FAN.powerOn) {
       callback(err, true);
     }
     else {
@@ -83,9 +83,9 @@ fan
   .getService(Service.Fan)
   .addCharacteristic(Characteristic.RotationSpeed)
   .on('get', function(callback) {
-    callback(null, FAKE_FAN.rSpeed);
+    callback(null, FAN.rSpeed);
   })
   .on('set', function(value, callback) {
-    FAKE_FAN.setSpeed(value);
+    FAN.setSpeed(value);
     callback();
   })
