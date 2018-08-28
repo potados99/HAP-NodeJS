@@ -116,10 +116,10 @@ lightAccessory
   var callback = function (error, stdout, stderr) {
     console.log("get power:");
     console.log(stdout);
-    if (stdout.includes("ON")) {
+    if (stdout && stdout.includes("ON")) {
       LightController.power = true;
     }
-    else if (stdout.includes("OFF")) {
+    else if (stdout && stdout.includes("OFF")) {
       LightController.power = false;
     }
     else {
