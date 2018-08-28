@@ -148,6 +148,7 @@ lightAccessory
       LightController.brightness = 100;
     }
 
+    LightController.setBrightness(LightController.getBrightness());
     theCallback(null, LightController.getBrightness());
   };
 
