@@ -70,7 +70,7 @@ var LightController = {
     exec(_cmd,
       function (error, stdout, stderr) {
         console.log("get brt:");
-        console.log(stdout);
+        console.log(stderr);
         return (this.brightness = (stdout + 0));
       }
     );
