@@ -149,5 +149,5 @@ lightAccessory
     theCallback(null, LightController.getBrightness());
   };
 
-  exec("control LED ST PWR", callback);
+  exec("control LED ST BRT", callback);
 });
