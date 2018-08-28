@@ -64,7 +64,7 @@ var LightController = {
 
   getBrightness: function() { //get brightness
     if(this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness);
-
+/*
     exec("control LED ST BRT", function (error, stdout, stderr) {
         console.log("get brt:");
         console.log(stdout);
@@ -73,6 +73,7 @@ var LightController = {
         return (this.brightness = (stdout + 0));
       }
     );
+    */
     return 100;
   },
 
