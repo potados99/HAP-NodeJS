@@ -68,9 +68,9 @@ var LightController = {
 
     var _cmd = "LED ST BRT";
     exec(_cmd,
-      console.log("get brt:");
-      console.log(stdout);
       function (error, stdout, stderr) {
+        console.log("get brt:");
+        console.log(stdout);
         return (this.brightness = (stdout + 0));
       }
     );
