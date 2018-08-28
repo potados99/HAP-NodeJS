@@ -36,7 +36,7 @@ var LightController = {
     if(this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off");
 
     var _cmd = "LED ST PWR";
-    exec(command,
+    exec(_cmd,
       function (error, stdout, stderr) {
         if (stdout == "ON\n") {
           return (this.power = true);
@@ -65,7 +65,7 @@ var LightController = {
     if(this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness);
 
     var _cmd = "LED ST BRT";
-    exec(command,
+    exec(_cmd,
       function (error, stdout, stderr) {
         return (this.brightness = (stdout + 0));
       }
