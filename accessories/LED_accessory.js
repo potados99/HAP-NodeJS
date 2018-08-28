@@ -33,25 +33,27 @@ var LightController = {
   },
 
   getPower: function() { //get power of accessory
-    if(this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off");
+    if(this.outputLogs) {
+      console.log("'%s' is %s.", this.name, this.power ? "on" : "off");
+    }
 
-    exec("control LED ST PWR", function (error, stdout, stderr) {
-        console.log("get power:");
-        console.log(stdout);
-        if (stdout.includes("ON")) {
-          this.power = true
-          return true;
-        }
-        else if (stdout.includes("OFF")) {
-          this.power = false;
-          return false;
-        }
-        else {
-          return this.power;
-        }
+    var callback = function (error, stdout, stderr) {
+      console.log("get power:");
+      console.log(stdout);
+      if (stdout.includes("ON")) {
+        this.power = true;
       }
-    );
+      else if (stdout.includes("OFF")) {
+        this.power = false;
+      }
+      else {
+        this.power = false;
+      }
+    };
 
+    exec("control LED ST PWR", callback);
+
+    return this.power;
   },
 
   setBrightness: function(brightness) { //set brightness
@@ -64,17 +66,18 @@ var LightController = {
 
   getBrightness: function() { //get brightness
     if(this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness);
-/*
-    exec("control LED ST BRT", function (error, stdout, stderr) {
-        console.log("get brt:");
-        console.log(stdout);
-        console.log(stderr);
 
-        return (this.brightness = (stdout + 0));
-      }
-    );
-    */
-    return 100;
+    var callback = function (error, stdout, stderr) {
+      console.log("get brt:");
+      console.log(stdout);
+      console.log(stderr);
+
+      this.brightness = (stdout + 0);
+    };
+
+    exec("control LED ST BRT", callback);
+
+    return this.brightness;
   },
 
   identify: function() { //identify the accessory
