@@ -38,6 +38,8 @@ var LightController = {
     var _cmd = "LED ST PWR";
     exec(_cmd,
       function (error, stdout, stderr) {
+        console.log("get power:");
+        console.log(stdout);
         if (stdout == "ON\n") {
           return (this.power = true);
         }
@@ -66,6 +68,8 @@ var LightController = {
 
     var _cmd = "LED ST BRT";
     exec(_cmd,
+      console.log("get brt:");
+      console.log(stdout);
       function (error, stdout, stderr) {
         return (this.brightness = (stdout + 0));
       }
