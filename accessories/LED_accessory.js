@@ -40,10 +40,10 @@ var LightController = {
       function (error, stdout, stderr) {
         console.log("get power:");
         console.log(stdout);
-        if (stdout == "ON\n") {
+        if (stdout.includes("ON")) {
           return (this.power = true);
         }
-        else if (stdout == "OFF\n") {
+        else if (stdout.includes("OFF")) {
           return (this.power = false);
         }
         else {
@@ -71,6 +71,8 @@ var LightController = {
       function (error, stdout, stderr) {
         console.log("get brt:");
         console.log(stdout);
+        console.log(stderr);
+
         return (this.brightness = (stdout + 0));
       }
     );
