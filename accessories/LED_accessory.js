@@ -41,13 +41,13 @@ var LightController = {
       console.log("get power:");
       console.log(stdout);
       if (stdout.includes("ON")) {
-        this.power = true;
+        LightController.power = true;
       }
       else if (stdout.includes("OFF")) {
-        this.power = false;
+        LightController.power = false;
       }
       else {
-        this.power = false;
+        LightController.power = false;
       }
     };
 
