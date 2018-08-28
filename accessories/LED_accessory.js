@@ -5,7 +5,7 @@ var uuid = require('../').uuid;
 /*
 var SerialPort = require('serialport');
 var port = new SerialPort('/dev/ttyUSB0', {
-  baudRate: 9600
+baudRate: 9600
 });
 */
 var exec = require('child_process').exec;
@@ -26,16 +26,7 @@ var LightController = {
   setPower: function(status) { //set power of accessory
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off");
 
-/*
-    var _cmd = (status) ? 'LIT ON\n' : 'LIT OFF\n';
-
-    port.write(_cmd, function(err) {
-      if (err) {
-        return console.log('Error on write: ', err.message);
-      }
-    });
-*/
-    var _cmd = (status) ? "LED ON" : "LED OFF";
+    var _cmd = (status) ? "LED FADE IN" : "LED FADE OUT";
     exec("control " + _cmd);
 
     this.power = status;
@@ -43,7 +34,22 @@ var LightController = {
 
   getPower: function() { //get power of accessory
     if(this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off");
-    return this.power;
+
+    var _cmd = "LED ST PWR";
+    exec(command,
+      function (error, stdout, stderr) {
+        if (stdout == "ON\n") {
+          return (this.power = true);
+        }
+        else if (stdout == "OFF\n") {
+          return (this.power = false);
+        }
+        else {
+          return this.power;
+        }
+      }
+    );
+
   },
 
   setBrightness: function(brightness) { //set brightness
@@ -57,7 +63,14 @@ var LightController = {
 
   getBrightness: function() { //get brightness
     if(this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness);
-    return this.brightness;
+
+    var _cmd = "LED ST BRT";
+    exec(command,
+      function (error, stdout, stderr) {
+        return (this.brightness = (stdout + 0));
+      }
+    );
+
   },
 
   identify: function() { //identify the accessory
@@ -79,10 +92,10 @@ lightAccessory.pincode = LightController.pincode;
 
 // set some basic properties (these values are arbitrary and setting them is optional)
 lightAccessory
-  .getService(Service.AccessoryInformation)
-    .setCharacteristic(Characteristic.Manufacturer, LightController.manufacturer)
-    .setCharacteristic(Characteristic.Model, LightController.model)
-    .setCharacteristic(Characteristic.SerialNumber, LightController.serialNumber);
+.getService(Service.AccessoryInformation)
+.setCharacteristic(Characteristic.Manufacturer, LightController.manufacturer)
+.setCharacteristic(Characteristic.Model, LightController.model)
+.setCharacteristic(Characteristic.SerialNumber, LightController.serialNumber);
 
 // listen for the "identify" event for this Accessory
 lightAccessory.on('identify', function(paired, callback) {
@@ -93,23 +106,23 @@ lightAccessory.on('identify', function(paired, callback) {
 // Add the actual Lightbulb Service and listen for change events from iOS.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 lightAccessory
-  .addService(Service.Lightbulb, LightController.name) // services exposed to the user should have "names" like "Light" for this case
-  .getCharacteristic(Characteristic.On)
-  .on('set', function(value, callback) {
-    LightController.setPower(value);
+.addService(Service.Lightbulb, LightController.name) // services exposed to the user should have "names" like "Light" for this case
+.getCharacteristic(Characteristic.On)
+.on('set', function(value, callback) {
+  LightController.setPower(value);
 
-    // Our light is synchronous - this value has been successfully set
-    // Invoke the callback when you finished processing the request
-    // If it's going to take more than 1s to finish the request, try to invoke the callback
-    // after getting the request instead of after finishing it. This avoids blocking other
-    // requests from HomeKit.
-    callback();
-  })
-  // We want to intercept requests for our current power state so we can query the hardware itself instead of
-  // allowing HAP-NodeJS to return the cached Characteristic.value.
-  .on('get', function(callback) {
-    callback(null, LightController.getPower());
-  });
+  // Our light is synchronous - this value has been successfully set
+  // Invoke the callback when you finished processing the request
+  // If it's going to take more than 1s to finish the request, try to invoke the callback
+  // after getting the request instead of after finishing it. This avoids blocking other
+  // requests from HomeKit.
+  callback();
+})
+// We want to intercept requests for our current power state so we can query the hardware itself instead of
+// allowing HAP-NodeJS to return the cached Characteristic.value.
+.on('get', function(callback) {
+  callback(null, LightController.getPower());
+});
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
 // Please use Characteristic.updateValue
@@ -121,12 +134,12 @@ lightAccessory
 
 // also add an "optional" Characteristic for Brightness
 lightAccessory
-  .getService(Service.Lightbulb)
-  .addCharacteristic(Characteristic.Brightness)
-  .on('set', function(value, callback) {
-    LightController.setBrightness(value);
-    callback();
-  })
-  .on('get', function(callback) {
-    callback(null, LightController.getBrightness());
-  });
+.getService(Service.Lightbulb)
+.addCharacteristic(Characteristic.Brightness)
+.on('set', function(value, callback) {
+  LightController.setBrightness(value);
+  callback();
+})
+.on('get', function(callback) {
+  callback(null, LightController.getBrightness());
+});
