@@ -73,7 +73,7 @@ var LightController = {
         return (this.brightness = (stdout + 0));
       }
     );
-
+    return 100;
   },
 
   identify: function() { //identify the accessory
