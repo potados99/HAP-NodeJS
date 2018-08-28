@@ -37,22 +37,6 @@ var LightController = {
       console.log("'%s' is %s.", this.name, this.power ? "on" : "off");
     }
 
-    var callback = function (error, stdout, stderr) {
-      console.log("get power:");
-      console.log(stdout);
-      if (stdout.includes("ON")) {
-        LightController.power = true;
-      }
-      else if (stdout.includes("OFF")) {
-        LightController.power = false;
-      }
-      else {
-        LightController.power = false;
-      }
-    };
-
-    exec("control LED ST PWR", callback);
-
     return this.power;
   },
 
@@ -128,7 +112,24 @@ lightAccessory
 // We want to intercept requests for our current power state so we can query the hardware itself instead of
 // allowing HAP-NodeJS to return the cached Characteristic.value.
 .on('get', function(callback) {
-  callback(null, LightController.getPower());
+
+  var callback = function (error, stdout, stderr) {
+    console.log("get power:");
+    console.log(stdout);
+    if (stdout.includes("ON")) {
+      LightController.power = true;
+    }
+    else if (stdout.includes("OFF")) {
+      LightController.power = false;
+    }
+    else {
+      LightController.power = false;
+    }
+
+    callback(null, LightController.getPower());
+  };
+
+  exec("control LED ST PWR", callback);
 });
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
