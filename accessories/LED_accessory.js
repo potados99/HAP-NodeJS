@@ -99,7 +99,6 @@ lightAccessory
 // allowing HAP-NodeJS to return the cached Characteristic.value.
 .on('get', function(theCallback) {
 
-  theCallback(null, LightController.getPower());
   var callback = function (error, stdout, stderr) {
     console.log("get power:");
     console.log(stdout);
