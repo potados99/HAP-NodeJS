@@ -100,7 +100,6 @@ lightAccessory
 .on('get', function(theCallback) {
 
   theCallback(null, LightController.getPower());
-/*
   var callback = function (error, stdout, stderr) {
     console.log("get power:");
     console.log(stdout);
@@ -116,8 +115,8 @@ lightAccessory
 
     theCallback(null, LightController.getPower());
   };
-*/
-  //exec("control LED ST PWR", callback);
+
+  exec("control LED ST PWR", callback);
 });
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
@@ -148,7 +147,6 @@ lightAccessory
       LightController.brightness = 100;
     }
 
-    LightController.setBrightness(LightController.getBrightness());
     theCallback(null, LightController.getBrightness());
   };
 
