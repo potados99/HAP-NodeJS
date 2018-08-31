@@ -138,7 +138,7 @@ lightAccessory
 
   var callback = function (error, stdout, stderr) {
     console.log("Getting brightness from device: ");
-    console.log(stdout.trim() + 0);
+    console.log(stdout.trim() * 1);
     if (stdout) {
       LightController.brightness = stdout.trim() + 0;
     }
