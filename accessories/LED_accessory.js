@@ -98,7 +98,6 @@ lightAccessory
 // We want to intercept requests for our current power state so we can query the hardware itself instead of
 // allowing HAP-NodeJS to return the cached Characteristic.value.
 .on('get', function(theCallback) {
-
   var callback = function (error, stdout, stderr) {
     console.log("Getting power from device: ");
     console.log(stdout);
@@ -135,7 +134,6 @@ lightAccessory
   callback();
 })
 .on('get', function(theCallback) {
-
   var callback = function (error, stdout, stderr) {
     console.log("Getting brightness from device: ");
     console.log(stdout.trim() * 1);
