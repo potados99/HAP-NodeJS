@@ -100,7 +100,7 @@ lightAccessory
 .on('get', function(theCallback) {
 
   var callback = function (error, stdout, stderr) {
-    console.log("get power:");
+    console.log("Getting power from device: ");
     console.log(stdout);
     if (stdout && stdout.includes("ON")) {
       LightController.power = true;
@@ -137,10 +137,10 @@ lightAccessory
 .on('get', function(theCallback) {
 
   var callback = function (error, stdout, stderr) {
-    console.log("get brt:");
+    console.log("Getting brightness from device: ");
     console.log(stdout);
     if (stdout) {
-      LightController.brightness = stdout + 0;
+      LightController.brightness = stdout.trim() + 0;
     }
     else {
       LightController.brightness = 100;
