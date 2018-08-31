@@ -99,7 +99,7 @@ lightAccessory
 // allowing HAP-NodeJS to return the cached Characteristic.value.
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    console.log("Getting power from device: ");
+    console.log("Getting power from LED: ");
     console.log(stdout);
     if (stdout && stdout.includes("ON")) {
       LightController.power = true;
@@ -135,7 +135,7 @@ lightAccessory
 })
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    console.log("Getting brightness from device: ");
+    console.log("Getting brightness from LED: ");
     console.log(stdout.trim() * 1);
     if (stdout) {
       LightController.brightness = stdout.trim() * 1;
