@@ -140,7 +140,7 @@ lightAccessory
     console.log("Getting brightness from device: ");
     console.log(stdout.trim() * 1);
     if (stdout) {
-      LightController.brightness = stdout.trim() + 0;
+      LightController.brightness = stdout.trim() * 1;
     }
     else {
       LightController.brightness = 100;
