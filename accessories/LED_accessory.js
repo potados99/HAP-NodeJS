@@ -26,7 +26,7 @@ var LightController = {
   setPower: function(status) { //set power of accessory
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off");
 
-    var _cmd = (status) ? "LED FADE IN" : "LED FADE OUT";
+    var _cmd = (status) ? "LED FAD IN" : "LED FAD OUT";
     exec("control " + _cmd);
 
     this.power = status;
@@ -114,7 +114,7 @@ lightAccessory
     theCallback(null, LightController.getPower());
   };
 
-  exec("control LED ST PWR", callback);
+  exec("control LED GET PWR", callback);
 });
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
@@ -147,5 +147,5 @@ lightAccessory
     theCallback(null, LightController.getBrightness());
   };
 
-  exec("control LED ST BRT", callback);
+  exec("control LED GET BRT", callback);
 });

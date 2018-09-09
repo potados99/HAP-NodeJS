@@ -25,7 +25,7 @@ var LightController = {
   setPower: function(status) { //set power of accessory
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off");
 
-    var _cmd = (status) ? "LIT ON" : "LIT OFF";
+    var _cmd = (status) ? "LIT PWR ON" : "LIT PWR OFF";
     exec("control " + _cmd);
 
     this.power = status;
@@ -100,7 +100,7 @@ lightAccessory
     theCallback(null, LightController.getPower());
   };
 
-  exec("control LIT ST PWR", callback);
+  exec("control LIT GET PWR", callback);
 });
 
 // To inform HomeKit about changes occurred outside of HomeKit (like user physically turn on the light)
