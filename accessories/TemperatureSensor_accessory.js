@@ -1,53 +1,44 @@
-var Accessory = require('../').Accessory;
-var Service = require('../').Service;
-var Characteristic = require('../').Characteristic;
-var uuid = require('../').uuid;
+var Accessory = require('../').Accessory
+var Service = require('../').Service
+var Characteristic = require('../').Characteristic
+var uuid = require('../').uuid
+var fs = require('fs')
 
-// here's a fake temperature sensor device that we'll expose to HomeKit
-var FAKE_SENSOR = {
+var Sensor = {
   currentTemperature: 50,
-  getTemperature: function() { 
-    console.log("Getting the current temperature!");
-    return FAKE_SENSOR.currentTemperature;
+  outputLogs: true,
+
+  getTemperature: function() {
+    if (this.outputLogs) console.log("Getting the current temperature!")
+    return Sensor.currentTemperature
   },
-  randomizeTemperature: function() {
-    // randomize temperature to a value between 0 and 100
-    FAKE_SENSOR.currentTemperature = Math.round(Math.random() * 100);
+
+  updateTemperature: function() {
+    fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8', function(err, data){
+      Sensor.currentTemperature = data * 0.001
+    })
   }
 }
 
+var sensorUUID = uuid.generate('hap-nodejs:accessories:temperature-sensor')
+var sensorAccessory = exports.accessory = new Accessory('Temperature Sensor', sensorUUID)
 
-// Generate a consistent UUID for our Temperature Sensor Accessory that will remain the same
-// even when restarting our server. We use the `uuid.generate` helper function to create
-// a deterministic UUID based on an arbitrary "namespace" and the string "temperature-sensor".
-var sensorUUID = uuid.generate('hap-nodejs:accessories:temperature-sensor');
+sensorAccessory.username = "C1:5D:3A:AE:5E:FA"
+sensorAccessory.pincode = "031-45-154"
 
-// This is the Accessory that we'll return to HAP-NodeJS that represents our fake lock.
-var sensor = exports.accessory = new Accessory('Temperature Sensor', sensorUUID);
-
-// Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
-sensor.username = "C1:5D:3A:AE:5E:FA";
-sensor.pincode = "031-45-154";
-
-// Add the actual TemperatureSensor Service.
-// We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
-sensor
+sensorAccessory
   .addService(Service.TemperatureSensor)
   .getCharacteristic(Characteristic.CurrentTemperature)
   .on('get', function(callback) {
-    
-    // return our current value
-    callback(null, FAKE_SENSOR.getTemperature());
-  });
 
-// randomize our temperature reading every 3 seconds
+    callback(null, Sensor.getTemperature())
+  })
+
 setInterval(function() {
+  Sensor.updateTemperature()
   
-  FAKE_SENSOR.randomizeTemperature();
-  
-  // update the characteristic value so interested iOS devices can get notified
-  sensor
+  sensorAccessory
     .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.CurrentTemperature, FAKE_SENSOR.currentTemperature);
-  
-}, 3000);
+    .setCharacteristic(Characteristic.CurrentTemperature, Sensor.currentTemperature)
+
+}, 500)
