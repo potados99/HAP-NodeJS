@@ -20,9 +20,16 @@ var LightController = {
   setPower: function(status) {
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
-    var param = (status) ? "IN" : "OUT"
-    exec("control LED FAD " + param)
-
+    var param;
+    if (brightness == 100) {
+      param = (status) ? "IN" : "OUT"
+      exec("control LED FAD " + param)
+    }
+    else {
+      param = (status) ? "ON" : "OFF"
+      exec("control LED PWR " + param)
+    }
+    
     this.power = status
   },
 
