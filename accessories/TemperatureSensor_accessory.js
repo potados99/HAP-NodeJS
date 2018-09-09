@@ -5,7 +5,7 @@ var uuid = require('../').uuid
 var fs = require('fs')
 
 var Sensor = {
-  currentTemperature: 50,
+  currentTemperature: 0,
   outputLogs: true,
 
   getTemperature: function() {
@@ -36,7 +36,7 @@ sensorAccessory
 
 setInterval(function() {
   Sensor.updateTemperature()
-  
+
   sensorAccessory
     .getService(Service.TemperatureSensor)
     .setCharacteristic(Characteristic.CurrentTemperature, Sensor.currentTemperature)

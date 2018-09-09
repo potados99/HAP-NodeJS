@@ -13,7 +13,7 @@ var LightController = {
   serialNumber: "POTADOS99LIT",
 
   power: false,
-  outputLogs: true,
+  outputLogs: false,
 
   setPower: function(status) {
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
