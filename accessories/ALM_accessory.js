@@ -28,8 +28,7 @@ var AlarmController = {
     if (this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off")
 
     return this.power
-  }
-
+  },
 
   identify: function() {
     console.log("Identify the alarm.");
