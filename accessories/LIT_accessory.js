@@ -16,7 +16,7 @@ var LightController = {
   outputLogs: false,
 
   setPower: function(status) {
-    if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
+    if (this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
     var param = (status) ? "ON" : "OFF"
     exec("control LIT PWR " + param)
@@ -25,13 +25,13 @@ var LightController = {
   },
 
   getPower: function() {
-    if(this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off")
+    if (this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off")
 
     return this.power
   },
 
   identify: function() {
-    if(this.outputLogs) console.log("Identify the '%s'", this.name)
+    if (this.outputLogs) console.log("Identify the '%s'", this.name)
 
     exec("control LIT RPD 0.2")
   }
@@ -49,7 +49,8 @@ lightAccessory
 .setCharacteristic(Characteristic.Model, LightController.model)
 .setCharacteristic(Characteristic.SerialNumber, LightController.serialNumber)
 
-lightAccessory.on('identify', function(paired, callback) {
+lightAccessory
+.on('identify', function(paired, callback) {
   LightController.identify()
 
   callback()
@@ -65,8 +66,8 @@ lightAccessory
 })
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    if(LightController.outputLogs) console.log("Getting power from LIT: ")
-    if(LightController.outputLogs) console.log(stdout)
+    if (LightController.outputLogs) console.log("Getting power from LIT: ")
+    if (LightController.outputLogs) console.log(stdout)
 
     if (stdout && stdout.includes("ON")) {
       LightController.power = true

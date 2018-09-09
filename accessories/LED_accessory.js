@@ -17,7 +17,7 @@ var LightController = {
   outputLogs: false,
 
   setPower: function(status) {
-    if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
+    if (this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
     var param;
     if (this.brightness == 100) {
@@ -33,13 +33,13 @@ var LightController = {
   },
 
   getPower: function() {
-    if(this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off")
+    if (this.outputLogs) console.log("'%s' is %s.", this.name, this.power ? "on" : "off")
 
     return this.power
   },
 
   setBrightness: function(brightness) {
-    if(this.outputLogs) console.log("Setting '%s' brightness to %s", this.name, brightness)
+    if (this.outputLogs) console.log("Setting '%s' brightness to %s", this.name, brightness)
 
     exec("control LED BRT " + brightness)
 
@@ -47,13 +47,13 @@ var LightController = {
   },
 
   getBrightness: function() {
-    if(this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness)
+    if (this.outputLogs) console.log("'%s' brightness is %s", this.name, this.brightness)
 
     return this.brightness
   },
 
   identify: function() { //identify the accessory
-    if(this.outputLogs) console.log("Identify the '%s'", this.name)
+    if (this.outputLogs) console.log("Identify the '%s'", this.name)
 
     exec("control LED RPD 0.2")
   }
@@ -72,7 +72,8 @@ lightAccessory
 .setCharacteristic(Characteristic.Model, LightController.model)
 .setCharacteristic(Characteristic.SerialNumber, LightController.serialNumber)
 
-lightAccessory.on('identify', function(paired, callback) {
+lightAccessory
+.on('identify', function(paired, callback) {
   LightController.identify()
 
   callback()
@@ -88,8 +89,8 @@ lightAccessory
 })
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    if(LightController.outputLogs) console.log("Getting power from LED: ")
-    if(LightController.outputLogs) console.log(stdout)
+    if (LightController.outputLogs) console.log("Getting power from LED: ")
+    if (LightController.outputLogs) console.log(stdout)
 
     if (stdout && stdout.includes("ON")) {
       LightController.power = true
@@ -117,8 +118,8 @@ lightAccessory
 })
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    if(LightController.outputLogs) console.log("Getting brightness from LED: ")
-    if(LightController.outputLogs) console.log(stdout.trim() * 1)
+    if (LightController.outputLogs) console.log("Getting brightness from LED: ")
+    if (LightController.outputLogs) console.log(stdout.trim() * 1)
 
     if (stdout) {
       LightController.brightness = stdout.trim() * 1
