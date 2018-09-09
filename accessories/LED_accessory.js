@@ -15,7 +15,7 @@ var LightController = {
   power: false,
   brightness: 100,
 
-  outputLogs: false,
+  outputLogs: true,
 
   setPower: function(status) {
     if(this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
