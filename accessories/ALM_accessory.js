@@ -2,7 +2,7 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var err = null;
+var exec = require('child_process').exec
 
 var AlarmController = {
   name: "Alarm",
