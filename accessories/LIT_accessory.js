@@ -64,7 +64,7 @@ lightAccessory
 })
 .on('get', function(theCallback) {
   var callback = function (error, stdout, stderr) {
-    if(LightController.outputLogs) console.log("Getting power from device: ")
+    if(LightController.outputLogs) console.log("Getting power from LIT: ")
     if(LightController.outputLogs) console.log(stdout)
 
     if (stdout && stdout.includes("ON")) {
