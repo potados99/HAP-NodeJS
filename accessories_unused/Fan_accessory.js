@@ -24,7 +24,7 @@ var FanController = {
     });
     */
 
-    var _cmd = (status) ? "FAN ON" : "FAN OFF";
+    var _cmd = (status) ? "FAN PWR ON" : "FAN PWR OFF";
     exec("control " + _cmd);
 
     this.power = status;
