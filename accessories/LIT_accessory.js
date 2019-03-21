@@ -18,8 +18,8 @@ var LightController = {
   setPower: function(status) {
     if (this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
-    var param = (status) ? "ON" : "OFF"
-    exec("control LIT PWR " + param)
+    var param = (status) ? "on" : "off"
+    exec("~/Applications/p " + param)
 
     this.power = status
   },
