@@ -19,11 +19,11 @@ var LightController = {
   setPower: function(status) {
     if (this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
-    if (this.brightness == 100) {
-      exec("p pwr on")
+    if (status) {
+      exec("~/Applications/p pwr on")
     }
     else {
-      exec("p pwr off ")
+      exec("~/Applications/p pwr off ")
     }
 
     this.power = status
@@ -38,7 +38,7 @@ var LightController = {
   setBrightness: function(brightness) {
     if (this.outputLogs) console.log("Setting '%s' brightness to %s", this.name, brightness)
 
-    exec("p brt " + brightness)
+    exec("~/Applications/p brt " + brightness)
 
     this.brightness = brightness
   },
@@ -102,7 +102,7 @@ lightAccessory
     theCallback(null, LightController.getPower())
   }
 
-  exec("p pwr get", callback)
+  exec("~/Applications/p pwr get", callback)
 })
 
 lightAccessory
@@ -128,5 +128,5 @@ lightAccessory
     theCallback(null, LightController.getBrightness())
   }
 
-  exec("p brt get", callback)
+  exec("~/Applications/p brt get", callback)
 })
