@@ -19,14 +19,11 @@ var LightController = {
   setPower: function(status) {
     if (this.outputLogs) console.log("Turning the '%s' %s", this.name, status ? "on" : "off")
 
-    var param;
     if (this.brightness == 100) {
-      param = (status) ? "IN" : "OUT"
-      exec("control LED FAD " + param)
+      exec("p pwr on")
     }
     else {
-      param = (status) ? "ON" : "OFF"
-      exec("control LED PWR " + param)
+      exec("p pwr off ")
     }
 
     this.power = status
@@ -41,7 +38,7 @@ var LightController = {
   setBrightness: function(brightness) {
     if (this.outputLogs) console.log("Setting '%s' brightness to %s", this.name, brightness)
 
-    exec("control LED BRT " + brightness)
+    exec("p brt " + brightness)
 
     this.brightness = brightness
   },
@@ -105,7 +102,7 @@ lightAccessory
     theCallback(null, LightController.getPower())
   }
 
-  exec("control LED GET PWR", callback)
+  exec("p pwr get", callback)
 })
 
 lightAccessory
@@ -131,5 +128,5 @@ lightAccessory
     theCallback(null, LightController.getBrightness())
   }
 
-  exec("control LED GET BRT", callback)
+  exec("p brt get", callback)
 })
